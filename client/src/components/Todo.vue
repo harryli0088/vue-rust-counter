@@ -15,23 +15,29 @@
 import { defineComponent } from 'vue';
 
 type State = {
-  value: string,
+  list: string[],
+  createValue: string,
+  updateIndex: number,
+  updateValue: string,
 }
 export default defineComponent({
   data: ():State => ({
-    value: "",
+    list: [],
+    createValue: "",
+    updateIndex: -1,
+    updateValue: "",
   }),
   methods: {
     create: function(e: Event) {
       e.preventDefault()
-      console.log("this.value",this.value)
+      console.log("this.createValue",this.createValue)
     },
     delete: function() {
-      console.log("this.value",this.value)
+      console.log("this.createValue",this.createValue)
 
     },
     update: function() {
-      console.log("this.value",this.value)
+      console.log("this.createValue",this.createValue)
 
     },
   },
