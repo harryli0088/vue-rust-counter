@@ -1,4 +1,4 @@
-# Vue Rust Todo App
+# Vue Rust Counter App
 
 
 ## Server Deploy

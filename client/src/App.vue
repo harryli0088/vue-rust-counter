@@ -1,16 +1,16 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <Todo msg="Welcome to this Vue.js + TypeScript Todo App"/>
+  <Counter msg="Welcome to this Vue.js + TypeScript + Rust Counter App"/>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Todo from './components/Todo.vue';
+import Counter from './components/Counter.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Todo
+    Counter
   }
 });
 </script>
