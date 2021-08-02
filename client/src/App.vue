@@ -1,6 +1,8 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <Counter msg="Welcome to this Vue.js + TypeScript + Rust Counter App"/>
+  <div>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <Counter msg="Welcome to this Vue.js + TypeScript + Rust Counter App"/>
+  </div>
 </template>
 
 <script lang="ts">

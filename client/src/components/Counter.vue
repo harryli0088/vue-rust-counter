@@ -18,41 +18,49 @@
     </ul> -->
     <div><b>Count:</b> {{count}}</div>
     <div><button v-on:click="decrement">Decrement</button><button v-on:click="increment">Increment</button></div>
+    <div>{{error}}</div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import handleResponse from '../utils/handleResponse'
 import { SERVER_URL } from '../utils/constants'
 
 type State = {
+  error: string,
   count: number,
 }
 export default defineComponent({
   data: ():State => ({
+    error: "",
     count: 0
   }),
   methods: {
     decrement: function(e: Event) {
       e.preventDefault()
-      fetch(`${SERVER_URL}/decrement`, {method: "POST"}).then(
+      fetch(`${SERVER_URL}/decrement`, {method: "POST"}).then(handleResponse).then(
         res => res.text()
-      ).then(this.setCount).catch(console.error)
+      ).then(this.setCount).catch(this.handleError)
     },
     getCount: function() {
-      fetch(`${SERVER_URL}/count`).then(
+      fetch(`${SERVER_URL}/count`).then(handleResponse).then(
         res => res.text()
       ).then(this.setCount).catch(
-        console.error
+        this.handleError
       )
+    },
+    handleError: function(err: Error) {
+      this.error = err.message
     },
     increment: function(e: Event) {
       e.preventDefault()
-      fetch(`${SERVER_URL}/increment`, {method: "POST"}).then(
+      fetch(`${SERVER_URL}/increment`, {method: "POST"}).then(handleResponse).then(
         res => res.text()
-      ).then(this.setCount).catch(console.error)
+      ).then(this.setCount).catch(this.handleError)
     },
     setCount: function(count: string) {
+      this.error = ""
       this.count = parseInt(count)
     }
   },
