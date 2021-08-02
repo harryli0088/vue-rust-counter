@@ -4,10 +4,16 @@
     <form v-on:submit="create">
       <input
         @change="value=$event.target.value"
-        v-bind:value="value"
+        v-bind:value="createValue"
       />
       <button type="submit">Submit</button>
     </form>
+
+    <ul>
+      <li v-for="(todo, index) in todos" :key="index">
+        {{todo}}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -15,14 +21,14 @@
 import { defineComponent } from 'vue';
 
 type State = {
-  list: string[],
+  todos: string[],
   createValue: string,
   updateIndex: number,
   updateValue: string,
 }
 export default defineComponent({
   data: ():State => ({
-    list: [],
+    todos: [],
     createValue: "",
     updateIndex: -1,
     updateValue: "",
@@ -41,6 +47,9 @@ export default defineComponent({
 
     },
   },
+  mounted: function() {
+    fetch("http://localhost:8080/todos").then(res => res.json()).then(console.log).catch(console.error)
+  },
   name: 'Todo',
   props: {
     msg: String,
@@ -54,7 +63,7 @@ h3 {
   margin: 40px 0 0;
 }
 ul {
-  list-style-type: none;
+  todos-style-type: none;
   padding: 0;
 }
 li {
