@@ -1,9 +1,14 @@
 <template>
   <div id="container">
     <div>
-      <img id="logo" alt="Vue logo" src="./assets/logo.png">
+      <div>
+        <img id="vue-logo" alt="Vue logo" src="./assets/logo.png">
+        <img id="rust-logo" alt="Rust logo" src="./assets/rust.png">
+      </div>
       <Counter msg="Vue + Rust Counter App"/>
     </div>
+
+    <footer>Ferris the Crab image from <a href="https://rustacean.net/" target="_blank" rel="noopener">https://rustacean.net/</a></footer>
   </div>
 </template>
 
@@ -39,7 +44,21 @@ body {
   align-items: center;
 }
 
-#logo {
+#vue-logo, #rust-logo {
   height: 150px;
+}
+@media only screen and (max-width: 500px) {
+  #vue-logo, #rust-logo {
+    height: 125px;
+  }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ddd;
+  padding: 0.25em;
 }
 </style>
