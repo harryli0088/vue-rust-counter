@@ -1,6 +1,9 @@
 use actix_cors::Cors;
 use actix_web::{get, http, post, web, App, HttpResponse, HttpServer};
-use std::sync::{Arc, Mutex};
+use std::{
+  env,
+  sync::{Arc, Mutex},
+};
 
 #[derive(Debug, Default)]
 struct ActixData {
@@ -45,6 +48,10 @@ async fn main() -> std::io::Result<()> {
   //https://stackoverflow.com/questions/59276996/why-does-my-shared-actix-web-state-sometimes-reset-back-to-the-original-value
   let data = Arc::new(Mutex::new(ActixData::default()));
 
+  // Get the port number to listen on (required for heroku deployment).
+  let port = env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+  let server_addr = format!("0.0.0.0:{}", port);
+
   HttpServer::new(move || {
     let cors = Cors::default()
       .allowed_origin("http://localhost:3000")
@@ -62,7 +69,7 @@ async fn main() -> std::io::Result<()> {
       .service(increment)
       .service(decrement)
   })
-  .bind("127.0.0.1:8080")?
+  .bind(server_addr)?
   .run()
   .await
 }

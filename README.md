@@ -2,7 +2,23 @@
 
 
 ## Server Deploy
-Deployed to Heroku using this buildpack: https://github.com/emk/heroku-buildpack-rust
+First make sure you allow the port to be set by an environment variable (which will be set by Heroku)
+```rs
+use std::env
+...
+let port = env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+let server_addr = format!("0.0.0.0:{}", port);
+```
+
+Deploy to Heroku using this buildpack: https://github.com/emk/heroku-buildpack-rust
+```
+heroku create --buildpack emk/rust
+```
+
+Make a file in ```server/``` called ```Procfile``` with contents
+```
+web: ./target/release/server
+```
 
 ### Deploy a subdirectory to heroku
 ```
