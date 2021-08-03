@@ -4,12 +4,11 @@ use std::sync::{Arc, Mutex};
 
 #[derive(Debug, Default)]
 struct ActixData {
-  counter: i128,
+  counter: u8,
 }
 
 #[get("/")]
 async fn index() -> String {
-  println!("testing123");
   format!("Welcome to the Rust Counter Server!")
 }
 
@@ -20,19 +19,33 @@ async fn get_count(actix_data: web::Data<Arc<Mutex<ActixData>>>) -> HttpResponse
 
 #[post("/increment")]
 async fn increment(actix_data: web::Data<Arc<Mutex<ActixData>>>) -> HttpResponse {
-  actix_data.lock().unwrap().counter += 1;
-  HttpResponse::Ok().body(format!("{:?}", actix_data.lock().unwrap().counter))
+  if actix_data.lock().unwrap().counter.checked_add(1) <= Some(u8::MAX) {
+    actix_data.lock().unwrap().counter += 1;
+    HttpResponse::Ok().body(format!("{:?}", actix_data.lock().unwrap().counter))
+  }
+  else {
+    HttpResponse::Conflict().body(format!("Cannot increment anymore"))
+  }
 }
 
 #[post("/decrement")]
 async fn decrement(actix_data: web::Data<Arc<Mutex<ActixData>>>) -> HttpResponse {
-  actix_data.lock().unwrap().counter -= 1;
-  HttpResponse::Ok().body(format!("{:?}", actix_data.lock().unwrap().counter))
+  if actix_data.lock().unwrap().counter.checked_sub(1) >= Some(u8::MIN) {
+    actix_data.lock().unwrap().counter -= 1;
+    HttpResponse::Ok().body(format!("{:?}", actix_data.lock().unwrap().counter))
+  }
+  else {
+    HttpResponse::Conflict().body(format!("Cannot decrement anymore"))
+  }
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-  HttpServer::new(|| {
+  //define the app state outside the HttpServer closure so that it persists
+  //https://stackoverflow.com/questions/59276996/why-does-my-shared-actix-web-state-sometimes-reset-back-to-the-original-value
+  let data = Arc::new(Mutex::new(ActixData::default()));
+
+  HttpServer::new(move || {
     let cors = Cors::default()
       .allowed_origin("http://localhost:3000")
       .allowed_origin("https://harryli0088.github.io")
@@ -40,8 +53,6 @@ async fn main() -> std::io::Result<()> {
       .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
       .allowed_header(http::header::CONTENT_TYPE)
       .max_age(3600);
-
-    let data = Arc::new(Mutex::new(ActixData::default()));
 
     App::new()
       .wrap(cors)
