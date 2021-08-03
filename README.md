@@ -2,7 +2,10 @@
 
 ## Client Deploy
 https://cli.vuejs.org/guide/deployment.html#github-pages
-Vue docs are slightly misleading. See ```client/deploy.sh``` for deviations from their docs
+Vue docs are slightly misleading. 
+
+1. You must put vue.config.js at in the client project root, not the repository root.
+2. See ```client/deploy.sh``` for deviations from their docs
 
 ```
 cd client
