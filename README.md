@@ -1,5 +1,13 @@
 # Vue Rust Counter App
 
+## Client Deploy
+https://cli.vuejs.org/guide/deployment.html#github-pages
+Vue docs are slightly misleading. See ```client/deploy.sh``` for deviations from their docs
+
+```
+cd client
+sh deploy.sh
+```
 
 ## Server Deploy
 First make sure you allow the port to be set by an environment variable (which will be set by Heroku)
