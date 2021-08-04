@@ -6,6 +6,7 @@ Live Site (Note: Heroku free tier server takes several seconds to wake up from s
 
 ## Client Deploy
 https://cli.vuejs.org/guide/deployment.html#github-pages
+
 Vue docs are slightly misleading. 
 
 1. You must put vue.config.js at in the client project root, not the repository root.
