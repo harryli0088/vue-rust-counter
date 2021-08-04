@@ -1,6 +1,6 @@
 # Vue Rust Counter App
 
-Live Site (Note: Heroku free tier server takes several seconds to wake up from sleep mode): https://harryli0088.github.io/rust-react-chat/
+Live Site (Note: Heroku free tier server takes several seconds to wake up from sleep mode): https://harryli0088.github.io/vue-rust-counter/
 
 ![Screenshot](/client/public/screenshot.png)
 

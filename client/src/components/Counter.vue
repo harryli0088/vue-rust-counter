@@ -24,8 +24,8 @@
       <div><button id="increment" v-on:click="increment">Increment ++</button></div>
       <div><button id="decrement" v-on:click="decrement">Decrement --</button></div>
     </div>
-    <div v-else>
-      Connecting...
+    <div v-else-if="status === getConnectionStatus().loading">
+      Waking Up Server...
     </div>
 
     <div>{{error}}</div>
@@ -74,7 +74,11 @@ export default defineComponent({
       fetch(`${SERVER_URL}/count`).then(handleResponse).then(
         res => res.text()
       ).then(this.setCount).catch(
-        this.handleError
+        err => {
+          console.error(err)
+          this.error = "There was an error contacting the server :/ Try again later!"
+          this.status = ConnectionStatus.error
+        }
       )
     },
     handleError: function(err: Error) {
