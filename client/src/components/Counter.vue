@@ -27,6 +27,9 @@
     <div v-else-if="status === getConnectionStatus().loading">
       Waking Up Server...
     </div>
+    <div v-else-if="status === getConnectionStatus().error">
+      There was an error contacting the server :/ Try again later!
+    </div>
 
     <div>{{error}}</div>
 
@@ -76,7 +79,6 @@ export default defineComponent({
       ).then(this.setCount).catch(
         err => {
           console.error(err)
-          this.error = "There was an error contacting the server :/ Try again later!"
           this.status = ConnectionStatus.error
         }
       )
